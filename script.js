@@ -13,8 +13,6 @@ const newItem = (...ona) => {
   return { id: crypto.randomUUID(), created: Date.now(), ona };
 };
 
-const sum = (a, b) => a + b;
-
 const Db = class {
   static prefix = "tonsi-item";
 
@@ -110,8 +108,8 @@ logBtn.addEventListener("click", () => {
 });
 
 /// ================DISPLAY DATA================ \\\
-const allItems = db.getAll();
-console.log(allItems);
+const items = db.getAll();
+console.log(items);
 
 // const ctx1 = document.getElementById("myChart");
 
@@ -128,24 +126,26 @@ console.log(allItems);
 //   },
 // });
 
-const ctx = document.createElement("canvas");
-document.body.appendChild(ctx);
-const items = allItems.map((item) => item.ona);
-const data = {
-  labels: ["mije", "tonsi", "meli"],
-  datasets: [
-    {
-      label: "totals",
-      data: [
-        items.map((o) => o[0]).reduce(sum),
-        items.map((o) => o[1]).reduce(sum),
-        items.map((o) => o[2]).reduce(sum),
+const chart = (canvas, onas) =>
+  new Chart(canvas, {
+    type: "doughnut",
+    data: {
+      labels: ["mije", "tonsi", "meli"],
+      datasets: [
+        {
+          label: "totals",
+          data: onas
+            .reduce(
+              (acc, o) => acc.map((ona, i) => ona.concat(o[i])),
+              [[], [], []]
+            )
+            .map((o) => o.reduce((acc, n) => acc + n)),
+        },
       ],
     },
-  ],
-};
-console.log(data);
-const chart = new Chart(ctx, {
-  type: "doughnut",
-  data,
-});
+  });
+
+chart(
+  document.getElementById("canvas-totals"),
+  items.map((item) => item.ona)
+);
