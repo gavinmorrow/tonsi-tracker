@@ -111,21 +111,6 @@ logBtn.addEventListener("click", () => {
 const items = db.getAll();
 console.log(items);
 
-// const ctx1 = document.getElementById("myChart");
-
-// new Chart(ctx1, {
-//   type: "doughnut",
-//   data: {
-//     labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-//     datasets: [
-//       {
-//         label: "# of Votes",
-//         data: [12, 19, 3, 5, 2, 3],
-//       },
-//     ],
-//   },
-// });
-
 const chart = (canvas, onas) =>
   new Chart(canvas, {
     type: "doughnut",
