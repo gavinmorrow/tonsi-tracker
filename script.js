@@ -13,8 +13,18 @@ const newItem = (...ona) => {
   return { id: crypto.randomUUID(), created: Date.now(), ona };
 };
 
+const sum = (a, b) => a + b;
+
 const Db = class {
   static prefix = "tonsi-item";
+
+  /** @returns {Item[]} */
+  getAll() {
+    return Object.keys(localStorage)
+      .filter((key) => key.startsWith(Db.prefix))
+      .map((key) => localStorage.getItem(key))
+      .map((item) => JSON.parse(item));
+  }
 
   /** @param {uuid} id */
   getItem(id) {
@@ -97,4 +107,45 @@ logBtn.addEventListener("click", () => {
   document.body.appendChild(fragment);
 
   dialog.showModal();
+});
+
+/// ================DISPLAY DATA================ \\\
+const allItems = db.getAll();
+console.log(allItems);
+
+// const ctx1 = document.getElementById("myChart");
+
+// new Chart(ctx1, {
+//   type: "doughnut",
+//   data: {
+//     labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+//     datasets: [
+//       {
+//         label: "# of Votes",
+//         data: [12, 19, 3, 5, 2, 3],
+//       },
+//     ],
+//   },
+// });
+
+const ctx = document.createElement("canvas");
+document.body.appendChild(ctx);
+const items = allItems.map((item) => item.ona);
+const data = {
+  labels: ["mije", "tonsi", "meli"],
+  datasets: [
+    {
+      label: "totals",
+      data: [
+        items.map((o) => o[0]).reduce(sum),
+        items.map((o) => o[1]).reduce(sum),
+        items.map((o) => o[2]).reduce(sum),
+      ],
+    },
+  ],
+};
+console.log(data);
+const chart = new Chart(ctx, {
+  type: "doughnut",
+  data,
 });
