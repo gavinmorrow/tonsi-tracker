@@ -1,23 +1,28 @@
 :root {
-    --color-bg: oklch(16% 0.042 190);
+  --color-bg: oklch(16% 0.042 190);
 
-    --color-text: #eee;
+  --color-text: #eee;
 }
 
-html {
-    background-color: var(--color-bg);
-    color: var(--color-text);
+/* :root {
+  --color-bg: oklch(66.6% 0.042 190);
 
-    margin: 0;
-    min-height: 100vh;
-    box-sizing: border-box;
+  --color-text: black;
+} */
+
+html {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  color-scheme: dark;
+
+  margin: 0;
 }
 
 body {
-    margin: 0;
-    padding: 1rem;
+  margin: 0;
+  padding: 1rem;
 }
 
 h1 {
-    margin-top: 0;
+  margin-top: 0;
 }

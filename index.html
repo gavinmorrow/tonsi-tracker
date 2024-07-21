@@ -1,12 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Tonsi Tracker</title>
-        <link rel="stylesheet" href="style.css" />
-    </head>
-    <body>
-        <script src="script.js" type="module"></script>
-    </body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tonsi Tracker</title>
+    <meta name="color-scheme" content="dark only" />
+    <meta name="theme-color" content="oklch(16% 0.042 190)" />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="preload"
+      as="style"
+      href="range.css"
+      onload="this.onload='null'; this.rel='stylesheet'"
+    />
+  </head>
+  <body>
+    <h1>Tonsi Tracker</h1>
+    <p>Log your tonsi-ness here!</p>
+    <button id="log">Log</button>
+    <ol id="items"></ol>
+    <template id="log-dialog">
+      <dialog>
+        <form>
+          <fieldset id="ona">
+            <legend>ona</legend>
+            <ul id="ona-list"></ul>
+          </fieldset>
+
+          <input type="submit" value="Finish" />
+
+          <datalist id="markers">
+            <option value="-10"></option>
+            <!-- <option value="-5"></option> -->
+            <option value="0"></option>
+            <!-- <option value="5"></option> -->
+            <option value="10"></option>
+          </datalist>
+        </form>
+      </dialog>
+      <style>
+        fieldset > ul {
+          list-style-type: none;
+          padding: 0;
+        }
+        fieldset > ul > li {
+          margin: 1em 0;
+        }
+      </style>
+    </template>
+    <template id="range">
+      <li>
+        <input type="range" min="-10" max="10" list="markers" />
+        <label></label>
+      </li>
+    </template>
+    <!-- <template id="sand"> -->
+    <!-- [S]trongly [A]gree [N]eutral [D]isagree -->
+    <!-- <fieldset>
+        <slot id="lengend"></slot>
+        <input type="radio" name="NAME" value="-2" />
+        <input type="radio" name="NAME" value="-1" />
+        <input type="radio" name="NAME" value="0" />
+        <input type="radio" name="NAME" value="1" />
+        <input type="radio" name="NAME" value="2" />
+      </fieldset> -->
+    <!-- </template> -->
+    <script src="script.js" type="module"></script>
+  </body>
 </html>
