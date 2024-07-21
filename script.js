@@ -111,6 +111,7 @@ logBtn.addEventListener("click", () => {
 const items = db.getAll();
 console.log(items);
 
+const sum = (acc, n) => Math.abs(acc) + Math.abs(n);
 const chart = (canvas, onas) =>
   new Chart(canvas, {
     type: "doughnut",
@@ -126,7 +127,13 @@ const chart = (canvas, onas) =>
               [[], [], []]
             )
             // turn [mije[], tonsi[], meli[]] into [totalMije, totalTonsi, totalMeli]
-            .map((a) => a.reduce((acc, n) => acc + n)),
+            .map((a) => a.reduce(sum))
+            // Make them all relative
+            .map((s, _, arr) => {
+              const total = Math.abs(arr.reduce(sum));
+              if (total === 0) return (1 / arr.length) * 100;
+              else return (s / total) * 100;
+            }),
         },
       ],
     },
@@ -136,3 +143,25 @@ chart(
   document.getElementById("canvas-totals"),
   items.map((item) => item.ona)
 );
+
+/** @type {Object} */
+const groupedByDate = Object.groupBy(
+  items,
+  /** @param {Item} item */ (item) => {
+    const created = new Date(item.created);
+    const date = created.getDate();
+    return date;
+  }
+);
+Object.keys(groupedByDate).forEach((date) => {
+  /** @type {Item[]} */
+  const itemsOnDate = groupedByDate[date];
+  console.log({ date, itemsOnDate });
+  const ctx = document.createElement("canvas");
+  ctx.ariaLabel = date;
+  document.body.appendChild(ctx);
+  chart(
+    ctx,
+    itemsOnDate.map((o) => o.ona)
+  );
+});
