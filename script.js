@@ -135,11 +135,13 @@ const chart = (canvas, onas) =>
         {
           label: "totals",
           data: onas
+            // turn [mije, tonsi, meli][] into [mije[], tonsi[], meli[]]
             .reduce(
               (acc, o) => acc.map((ona, i) => ona.concat(o[i])),
               [[], [], []]
             )
-            .map((o) => o.reduce((acc, n) => acc + n)),
+            // turn [mije[], tonsi[], meli[]] into [totalMije, totalTonsi, totalMeli]
+            .map((a) => a.reduce((acc, n) => acc + n)),
         },
       ],
     },
