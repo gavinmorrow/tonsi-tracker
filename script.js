@@ -119,7 +119,7 @@ const chart = (canvas, onas) =>
       labels: ["mije", "tonsi", "meli"],
       datasets: [
         {
-          label: "totals",
+          label: "totals (%)",
           data: onas
             // turn [mije, tonsi, meli][] into [mije[], tonsi[], meli[]]
             .reduce(
@@ -143,25 +143,33 @@ chart(
   document.getElementById("canvas-totals"),
   items.map((item) => item.ona)
 );
-
-/** @type {Object} */
-const groupedByDate = Object.groupBy(
-  items,
-  /** @param {Item} item */ (item) => {
-    const created = new Date(item.created);
-    const date = created.getDate();
-    return date;
-  }
-);
-Object.keys(groupedByDate).forEach((date) => {
-  /** @type {Item[]} */
-  const itemsOnDate = groupedByDate[date];
-  console.log({ date, itemsOnDate });
-  const ctx = document.createElement("canvas");
-  ctx.ariaLabel = date;
-  document.body.appendChild(ctx);
-  chart(
-    ctx,
-    itemsOnDate.map((o) => o.ona)
+{
+  const byDaySection = document.getElementById("by-day");
+  // By day
+  /** @type {Object} */
+  const groupedByDate = Object.groupBy(
+    items,
+    /** @param {Item} item */ (item) => {
+      const created = new Date(item.created);
+      const date = created.getDate();
+      return date;
+    }
   );
-});
+  Object.keys(groupedByDate).forEach((date) => {
+    /** @type {Item[]} */
+    const itemsOnDate = groupedByDate[date];
+    console.log({ date, itemsOnDate });
+    const art = document.createElement("article");
+    art.innerHTML = `<h3>${date}</h3>`;
+    const ctxWrapper = document.createElement("div");
+    const ctx = document.createElement("canvas");
+    ctx.ariaLabel = date;
+    ctxWrapper.appendChild(ctx);
+    art.appendChild(ctxWrapper);
+    byDaySection.appendChild(art);
+    chart(
+      ctx,
+      itemsOnDate.map((o) => o.ona)
+    );
+  });
+}

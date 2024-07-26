@@ -26,3 +26,30 @@ body {
 h1 {
   margin-top: 0;
 }
+
+#canvas-totals {
+  max-width: 20rem;
+  max-height: 20rem;
+}
+
+#by-day {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(calc(calc(300px + 2rem)), max-content)
+  );
+  gap: 1rem;
+  /* flex-wrap: wrap; */
+}
+
+#by-day > article {
+  background-color: oklch(from var(--color-bg) calc(l * 1.25) c h);
+  /* margin: 1rem; */
+  padding: 1rem;
+  border-radius: 1rem;
+  /* width: min-content; */
+}
+
+#by-day > article > div {
+  position: relative;
+}
